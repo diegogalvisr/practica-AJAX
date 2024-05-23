@@ -1,0 +1,10 @@
+{
+  "/fullstack.html": {
+    "target": "https://localhost:8000/",
+    "secure": false,
+    "changeOrigin": true,
+    "pathRewrite": {
+      "^/fullstack.html": ""
+    }
+  }
+}

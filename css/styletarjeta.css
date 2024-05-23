@@ -1,0 +1,24 @@
+body {
+    background-color: #f8f9fa; /* Color de fondo claro */
+}
+
+.card {
+    margin-top: 20px;
+    border: 1px solid #007bff; /* Borde azul */
+    border-radius: 10px; /* Bordes redondeados */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Sombra */
+}
+
+.card-title {
+    color: #007bff; /* Color del título */
+}
+
+.card-text {
+    font-size: 1rem; /* Tamaño de fuente */
+    color: #333; /* Color del texto */
+}
+
+.container {
+    max-width: 600px;
+    margin: auto;
+}

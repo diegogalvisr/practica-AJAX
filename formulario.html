@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Formulario - Empresa Desarrolladora de Software</title>
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+
+<body>
+    <header>
+        <div class="header-container">
+            <h1>Face Link</h1>
+            <nav>
+                <ul>
+                    <li><a href="index.html">Inicio</a></li>
+                    <li><a href="desarrollo.html">Desarrollo</a></li>
+                    <li><a href="formulario.html" class="active">Formulario</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <section class="form-section">
+            <h2>Postulación de Desarrolladores Freelance</h2>
+            <form id="formulario-postulacion" enctype="multipart/form-data" method="post" action="tu_archivo_php.php">
+                <label for="nombre">Nombre completo:</label>
+                <input type="text" id="nombre" name="nombre" required>
+                
+                <label for="profesion">Profesión:</label>
+                <input type="text" id="profesion" name="profesion" required>
+                
+                <label for="telefono">Teléfono:</label>
+                <input type="tel" id="telefono" name="telefono" required>
+                
+                <label for="email">Correo electrónico:</label>
+                <input type="email" id="email" name="email" required>
+                
+                <label for="linkedin">LinkedIn:</label>
+                <input type="url" id="linkedin" name="linkedin" required>
+                
+                <label for="habilidades">Habilidades (máximo 3):</label>
+                <div id="habilidades-container">
+                    <div>
+                        <input type="checkbox" id="html" name="habilidad" value="HTML">
+                        <label for="html">HTML</label> 
+                        <input type="checkbox" id="css" name="habilidad" value="CSS">
+                        <label for="css">CSS</label>
+                        <input type="checkbox" id="git" name="habilidad" value="git">
+                        <label for="git">Git</label>
+                        <input type="checkbox" id="javascript" name="habilidad" value="JavaScript">
+                        <label for="javascript">JavaScript</label>
+                        <input type="checkbox" id="ajax" name="habilidad" value="AJAX">
+                        <label for="ajax">AJAX</label>
+                        <input type="checkbox" id="react" name="habilidad" value="React">
+                        <label for="react">React</label>
+                    </div>
+                </div>
+
+                <label for="foto">Foto:</label>
+                <input type="file" id="foto" name="foto" accept="image/*" required>
+
+                <button type="submit">Enviar</button>
+            </form>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2024 Face Link. Todos los derechos reservados.</p>
+    </footer>
+
+    <script src="js/scripts.js"></script>
+</body>
+</html>
