@@ -6,7 +6,6 @@ checkboxes.forEach(checkbox => {
         const selectedCheckboxes = document.querySelectorAll('input[name="habilidad"]:checked');
         if (selectedCheckboxes.length > maxSelections) {
             checkbox.checked = false;
-            alert(`Solo puedes seleccionar hasta ${maxSelections} habilidades.`);
         }
     });
 });
@@ -14,7 +13,7 @@ checkboxes.forEach(checkbox => {
 const form = document.getElementById('formulario-postulacion');
 
 form.addEventListener('submit', function(event) {
-    event.preventDefault(); // Evita el envío del formulario
+    event.preventDefault(); 
     const formData = new FormData(form);
     const habilidades = [];
     formData.getAll('habilidad').forEach(habilidad => habilidades.push(habilidad));
@@ -34,17 +33,16 @@ form.addEventListener('submit', function(event) {
             </head>
             <body>
             <div class="card" style="width: 18rem;">
-            <img src="${base64Image}" alt="Foto" style="width:200px;height:200px;" class="card-img-top" alt="...">
             <div class="card-body">
               <h5 class="card-title">${formData.get('nombre')}</h5>
-              <p class="card-text"><strong>Profesion:</strong>${formData.get('profesion')}</p>
+              <p class="card-text"><strong>Profesion:</strong> ${formData.get('profesion')}</p>
+              <img src="${base64Image}" alt="Foto" style="width:200px;height:200px;" class="card-img-top" alt="...">
             </div>
             <ul class="list-group list-group-flush">
-              <li class="list-group-item">Telefono: ${formData.get('telefono')}</li>
+              <li class="list-group-item"><strong>Telefono:</strong> ${formData.get('telefono')}</li>
               <li class="list-group-item"><strong>Correo electrónico:</strong> ${formData.get('email')}</li>
               <li class="list-group-item"><strong>LinkedIn:</strong> ${formData.get('linkedin')}</li>
               <li class="list-group-item"><strong>Habilidades:</strong> ${habilidades.join(', ')}</li>
-              <li class="list-group-item"></li>
             </ul>
             </body>
             </html>
@@ -53,4 +51,5 @@ form.addEventListener('submit', function(event) {
 
     reader.readAsDataURL(file);
 });
+
 
