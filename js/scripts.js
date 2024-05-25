@@ -10,46 +10,134 @@ checkboxes.forEach(checkbox => {
     });
 });
 
-const form = document.getElementById('formulario-postulacion');
 
-form.addEventListener('submit', function(event) {
-    event.preventDefault(); 
-    const formData = new FormData(form);
-    const habilidades = [];
-    formData.getAll('habilidad').forEach(habilidad => habilidades.push(habilidad));
-
-    const file = formData.get('foto');
+document.getElementById('formulario-postulacion').addEventListener('submit', function(event) {
+    event.preventDefault();
+    
+    const nombre = document.getElementById('nombre').value;
+    const profesion = document.getElementById('profesion').value;
+    const telefono = document.getElementById('telefono').value;
+    const email = document.getElementById('email').value;
+    const linkedin = document.getElementById('linkedin').value;
+    const habilidades = Array.from(document.querySelectorAll('input[name="habilidad"]:checked')).map(el => el.value);
+    const foto = document.getElementById('foto').files[0];
+    
     const reader = new FileReader();
-
-    reader.onloadend = function() {
-        const base64Image = reader.result;
-
-        const ventanaNueva = window.open('', '_blank', 'width=600,height=600');
-        ventanaNueva.document.write(`
-            <html>
+    reader.onload = function(e) {
+        const fotoURL = e.target.result;
+        
+        const cardHTML = `
+            <!DOCTYPE html>
+            <html lang="es">
             <head>
-            <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-                <link href="css/style.css" rel="stylesheet">
+                <meta charset="UTF-8">
+                <meta name="viewport" content="width=device-width, initial-scale=1.0">
+                <title>Tarjeta del Desarrollador</title>
+                <style>
+                    body {
+                        font-family: Arial, sans-serif;
+                        display: flex;
+                        justify-content: center;
+                        align-items: center;
+                        height: 100vh;
+                        margin: 0;
+                        background-color: #f4f4f9;
+                    }
+                    .card-container {
+                        display: flex;
+                        justify-content: center;
+                        align-items: center;
+                        height: 100vh;
+                        width: 100%;
+                    }
+                    .card {
+                        background-color: #fff;
+                        border-radius: 10px;
+                        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+                        padding: 20px;
+                        text-align: center;
+                        width: 300px;
+                    }
+                    .card-photo {
+                        width: 200px;
+                        height: auto;
+                        border-radius: 50%;
+                        margin: 10px 0;
+                    }
+                    .card h3 {
+                        margin: 10px 0;
+                        font-size: 1.5em;
+                    }
+                    .card p {
+                        margin: 5px 0;
+                        font-size: 1em;
+                        color: #555;
+                    }
+                    .card a {
+                        color: #fff;
+                        background-color: #0073b1;
+                        text-decoration: none;
+                        padding: 10px 20px;
+                        border-radius: 5px;
+                        display: inline-block;
+                        margin-top: 20px;
+                        transition: background-color 0.3s ease;
+                    }
+                    .card a:hover {
+                        background-color: #005d8f;
+                    }
+                    .card-skills {
+                        margin-top: 10px;
+                    }
+                    .skill {
+                        display: inline-block;
+                        background-color: #0073b1;
+                        color: white;
+                        padding: 5px 10px;
+                        border-radius: 5px;
+                        margin: 2px;
+                        font-size: 0.9em;
+                    }
+                </style>
             </head>
             <body>
-            <div class="card" style="width: 18rem;">
-            <div class="card-body">
-              <h5 class="card-title">${formData.get('nombre')}</h5>
-              <p class="card-text"><strong>Profesion:</strong> ${formData.get('profesion')}</p>
-              <img src="${base64Image}" alt="Foto" style="width:200px;height:200px;" class="card-img-top" alt="...">
-            </div>
-            <ul class="list-group list-group-flush">
-              <li class="list-group-item"><strong>Telefono:</strong> ${formData.get('telefono')}</li>
-              <li class="list-group-item"><strong>Correo electrónico:</strong> ${formData.get('email')}</li>
-              <li class="list-group-item"><strong>LinkedIn:</strong> ${formData.get('linkedin')}</li>
-              <li class="list-group-item"><strong>Habilidades:</strong> ${habilidades.join(', ')}</li>
-            </ul>
+                <div class="card-container">
+                    <div class="card">
+                        <h3>${nombre}</h3>
+                        <p>${profesion}</p>
+                        <img src="${fotoURL}" alt="Foto del desarrollador" class="card-photo">
+                        <p>Teléfono: ${telefono}</p>
+                        <p>Correo electrónico: ${email}</p>
+                        <a href="${linkedin}" target="_blank">LinkedIn</a>
+                        <div class="card-skills">
+                            ${habilidades.map(skill => `<span class="skill">${skill}</span>`).join('')}
+                        </div>
+                    </div>
+                </div>
             </body>
             </html>
-        `);
-    };
-
-    reader.readAsDataURL(file);
+        `;
+        
+        // Create a downloadable HTML file
+        const blob = new Blob([cardHTML], { type: 'text/html' });
+        const url = URL.createObjectURL(blob);
+        const downloadLink = document.createElement('a');
+        downloadLink.href = url;
+        downloadLink.download = 'tarjeta-desarrollador.html';
+        downloadLink.textContent = 'Descargar Tarjeta';
+        downloadLink.classList.add('download-link');
+        
+        // Open the card in a new window
+        const nuevaVentana = window.open('', '_blank');
+        nuevaVentana.document.write(cardHTML);
+        
+        // Append the download link to the new window
+        nuevaVentana.document.body.appendChild(downloadLink);
+    }
+    reader.readAsDataURL(foto);
 });
+
+
+
 
 

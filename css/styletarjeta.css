@@ -1,24 +1,69 @@
 body {
-    background-color: #f8f9fa; /* Color de fondo claro */
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+}
+
+.card-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    margin-top: 20px;
 }
 
 .card {
-    margin-top: 20px;
-    border: 1px solid #007bff; /* Borde azul */
-    border-radius: 10px; /* Bordes redondeados */
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Sombra */
+    background-color: #fff;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 400px;
+    padding: 20px;
+    text-align: center;
 }
 
-.card-title {
-    color: #007bff; /* Color del título */
+.card-photo {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-bottom: 20px;
 }
 
-.card-text {
-    font-size: 1rem; /* Tamaño de fuente */
-    color: #333; /* Color del texto */
+.card h3 {
+    margin: 10px 0;
 }
 
-.container {
-    max-width: 600px;
-    margin: auto;
+.card p {
+    margin: 5px 0;
+}
+
+.card a {
+    color: #333;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.card a:hover {
+    text-decoration: underline;
+}
+
+.card-skills {
+    margin-top: 10px;
+}
+
+.skill {
+    background-color: #333;
+    color: #fff;
+    padding: 5px 10px;
+    border-radius: 5px;
+    margin: 5px;
+    display: inline-block;
 }
