@@ -127,11 +127,9 @@ document.getElementById('formulario-postulacion').addEventListener('submit', fun
         downloadLink.textContent = 'Descargar Tarjeta';
         downloadLink.classList.add('download-link');
         
-        // Open the card in a new window
         const nuevaVentana = window.open('', '_blank');
         nuevaVentana.document.write(cardHTML);
         
-        // Append the download link to the new window
         nuevaVentana.document.body.appendChild(downloadLink);
     }
     reader.readAsDataURL(foto);
