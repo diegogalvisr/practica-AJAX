@@ -117,6 +117,40 @@ document.getElementById('formulario-postulacion').addEventListener('submit', fun
             </body>
             </html>
         `;
+
+        const data = {
+            nombre: nombre,
+            imagen: foto.name,
+            profesion: profesion,
+            telefono: telefono,
+            correo: email,
+            linkedin: linkedin,
+            habilidad1: habilidades[0] || '',
+            habilidad2: habilidades[1] || '',
+            habilidad3: habilidades[2] || ''
+        };
+    
+        fetch('http://localhost:5000/newCandidato', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(data)
+        })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            return response.text();
+        })
+        .then(data => {
+            alert(data);
+            console.log('Success:', data);
+        })
+        .catch((error) => {
+            alert('Hubo un error al registrar el perfil');
+            console.error('Error:', error);
+        });
         
         // Create a downloadable HTML file
         const blob = new Blob([cardHTML], { type: 'text/html' });

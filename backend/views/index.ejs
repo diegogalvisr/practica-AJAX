@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Descripción de la API</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+</head>
+<body>
+    <div class="container mt-5">
+        <h1>Descripción de la API</h1>
+        <p>Esta API proporciona acceso a perfiles de usuarios.</p>
+        <h2>Endpoints Disponibles:</h2>
+        <ul>
+            <li><strong>GET /candidatos:</strong> Devuelve una lista de perfiles.</li>
+            <li><strong>POST /newCandidato:</strong> Registra un nuevo perfil.</li>
+        </ul>
+        <h2>Uso:</h2>
+        <p>Para obtener la lista de perfiles, realiza una solicitud GET a /perfiles.</p>
+<p>Para registrar un nuevo perfil, envía una solicitud POST a /registrarPerfil con el siguiente formato de JSON:</p>
+<pre>
+{
+    "nombre": "nombre",
+    "imagen": "urlImagen",
+    "profesion": "profesion",
+    "telefono": "celular",
+    "correo": "correo@correo.com",
+    "linkedin": "linkLinkedin",
+    "habilidad1": "hab1",
+    "habilidad2": "hab2",
+    "habilidad3": "hab3"
+}
+</pre>
+
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <!-- Agrega tu propio script si es necesario -->
+</body>
+</html>
