@@ -10,6 +10,7 @@ checkboxes.forEach(checkbox => {
     });
 });
 
+
 document.getElementById('formulario-postulacion').addEventListener('submit', function(event) {
     event.preventDefault();
     
@@ -46,7 +47,8 @@ document.getElementById('formulario-postulacion').addEventListener('submit', fun
                         display: flex;
                         justify-content: center;
                         align-items: center;
-                        flex-direction: column; /* Agregamos este estilo para que los elementos se apilen verticalmente */
+                        height: 100vh;
+                        width: 100%;
                     }
                     .card {
                         background-color: #fff;
@@ -55,7 +57,6 @@ document.getElementById('formulario-postulacion').addEventListener('submit', fun
                         padding: 20px;
                         text-align: center;
                         width: 300px;
-                        margin-bottom: 20px; /* Espacio entre la tarjeta y el enlace de descarga */
                     }
                     .card-photo {
                         width: 200px;
@@ -97,12 +98,6 @@ document.getElementById('formulario-postulacion').addEventListener('submit', fun
                         margin: 2px;
                         font-size: 0.9em;
                     }
-                    .download-link { /* Agregamos estilos para el enlace de descarga */
-                        margin-top: 20px;
-                        text-decoration: none;
-                        color: #0073b1;
-                        font-weight: bold;
-                    }
                 </style>
             </head>
             <body>
@@ -118,15 +113,7 @@ document.getElementById('formulario-postulacion').addEventListener('submit', fun
                             ${habilidades.map(skill => `<span class="skill">${skill}</span>`).join('')}
                         </div>
                     </div>
-                    <a href="#" class="download-link" id="downloadLink">Descargar Tarjeta</a>
                 </div>
-                <script>
-                    const blob = new Blob([${JSON.stringify(cardHTML)}], { type: 'text/html' });
-                    const url = URL.createObjectURL(blob);
-                    const downloadLink = document.getElementById('downloadLink');
-                    downloadLink.href = url;
-                    downloadLink.download = 'tarjeta-desarrollador.html';
-                </script>
             </body>
             </html>
         `;
@@ -164,10 +151,23 @@ document.getElementById('formulario-postulacion').addEventListener('submit', fun
             alert('Hubo un error al registrar el perfil');
             console.error('Error:', error);
         });
+        
+        // Create a downloadable HTML file
+        const blob = new Blob([cardHTML], { type: 'text/html' });
+        const url = URL.createObjectURL(blob);
+        const downloadLink = document.createElement('a');
+        downloadLink.href = url;
+        downloadLink.download = 'tarjeta-desarrollador.html';
+        downloadLink.textContent = 'Descargar Tarjeta';
+        downloadLink.classList.add('download-link');
+        
+        const nuevaVentana = window.open('', '_blank');
+        nuevaVentana.document.write(cardHTML);
+        
+        nuevaVentana.document.body.appendChild(downloadLink);
     }
     reader.readAsDataURL(foto);
 });
-
 
 
 
