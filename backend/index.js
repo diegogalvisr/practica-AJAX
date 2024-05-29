@@ -6,8 +6,8 @@ const app = express();
 
 app.use(cors());
 
-app.use(express.static('public')); // Sirve archivos estáticos desde la carpeta 'public'
-app.use(express.json()); // Para parsear el cuerpo de las solicitudes POST en formato JSON
+app.use(express.static('public')); 
+app.use(express.json()); 
 
 app.set('view engine', 'ejs');
 app.set('views', './views/');
@@ -37,44 +37,23 @@ conexion.connect(function(error) {
                 console.error('Error executing query:', error);
                 res.status(500).send('Error en la consulta');
             } else {
-                res.json(lista); // Devuelve la lista en formato JSON
+                res.json(lista); 
             }
         });
     });
-   const fs = require('fs'); // Importa el módulo fs para manejar archivos
 
-app.post('/newCandidato', (req, res) => {
-    const { nombre, profesion, telefono, correo, linkedin, habilidad1, habilidad2, habilidad3 } = req.body;
-    const imagen = req.body.imagen; // Nombre del archivo de imagen
-    const imagenData = req.body.data; // Datos de la imagen en formato base64
-
-    // Genera un nombre único para la imagen
-    const nombreImagen = `${Date.now()}-${imagen}`;
-
-    // Guarda la imagen en la carpeta 'imgs'
-    fs.writeFile(`imgs/${nombreImagen}`, Buffer.from(imagenData, 'base64'), (err) => {
-        if (err) {
-            console.error('Error al guardar la imagen:', err);
-            res.status(500).send('Error al guardar la imagen');
-            return;
+   app.post('/newCandidato', (req, res) => {
+    const { nombre, imagen, profesion, telefono, correo, linkedin, habilidad1, habilidad2, habilidad3 } = req.body;
+    const insertar = "INSERT INTO candidatos (Nombre, Imagen, Profesion, Telefono, Correo, LinkedIn, Habilidad1, Habilidad2, Habilidad3) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+    conexion.query(insertar, [nombre, imagen, profesion, telefono, correo, linkedin, habilidad1, habilidad2, habilidad3], function(error, results) {
+        if (error) {
+            console.error('Error executing query:', error);
+            res.status(500).send('Error al insertar los datos');
+        } else {
+            res.status(201).send('Perfil insertado correctamente');
         }
-
-        // URL de la imagen en el servidor
-        const imagenURL = `http://localhost:5000/imgs/${nombreImagen}`;
-
-        // Inserta los datos en la base de datos
-        const insertar = "INSERT INTO candidatos (Nombre, Imagen, Profesion, Telefono, Correo, LinkedIn, Habilidad1, Habilidad2, Habilidad3) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
-        conexion.query(insertar, [nombre, imagenURL, profesion, telefono, correo, linkedin, habilidad1, habilidad2, habilidad3], function(error, results) {
-            if (error) {
-                console.error('Error al ejecutar la consulta:', error);
-                res.status(500).send('Error al insertar los datos');
-            } else {
-                res.status(201).send('Perfil insertado correctamente');
-            }
-        });
     });
 });
-
     
 
     app.listen(5000, () => {
