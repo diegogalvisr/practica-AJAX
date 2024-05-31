@@ -118,24 +118,20 @@ document.getElementById('formulario-postulacion').addEventListener('submit', fun
             </html>
         `;
 
-        const data = {
-            nombre: nombre,
-            imagen: foto.name,
-            profesion: profesion,
-            telefono: telefono,
-            correo: email,
-            linkedin: linkedin,
-            habilidad1: habilidades[0] || '',
-            habilidad2: habilidades[1] || '',
-            habilidad3: habilidades[2] || ''
-        };
-    
+        const formData = new FormData();
+        formData.append('nombre', nombre);
+        formData.append('imagen', foto);
+        formData.append('profesion', profesion);
+        formData.append('telefono', telefono);
+        formData.append('correo', email);
+        formData.append('linkedin', linkedin);
+        formData.append('habilidad1', habilidades[0] || '');
+        formData.append('habilidad2', habilidades[1] || '');
+        formData.append('habilidad3', habilidades[2] || '');
+        
         fetch('http://localhost:5000/newCandidato', {
             method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(data)
+            body: formData
         })
         .then(response => {
             if (!response.ok) {
@@ -151,6 +147,7 @@ document.getElementById('formulario-postulacion').addEventListener('submit', fun
             alert('Hubo un error al registrar el perfil');
             console.error('Error:', error);
         });
+        
         
         // Create a downloadable HTML file
         const blob = new Blob([cardHTML], { type: 'text/html' });
