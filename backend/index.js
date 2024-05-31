@@ -31,7 +31,7 @@ conexion.connect(function(error) {
     });
 
     app.get('/candidatos', (req, res) => {
-        const mostrar = "SELECT * FROM candidatos";
+        const mostrar = "select cand.Nombre,cand.Imagen,cand.Profesion,cand.Telefono,cand.Correo,cand.LinkedIn,hab.Nombre AS Habilidad1,hab2.Nombre AS Habilidad2,hab3.Nombre AS Habilidad3 FROM candidatosinfo c INNER JOIN candidatos cand ON cand.ID = c.idEmpleado INNER JOIN habilidades hab ON hab.ID = c.idHabilidad1 INNER JOIN habilidades hab2 ON hab2.ID = c.idHabilidad2 INNER JOIN  habilidades hab3 ON hab3.ID = c.idHabilidad3;        ";
         conexion.query(mostrar, function(error, lista) {
             if (error) {
                 console.error('Error executing query:', error);
@@ -42,18 +42,35 @@ conexion.connect(function(error) {
         });
     });
 
-   app.post('/newCandidato', (req, res) => {
-    const { nombre, imagen, profesion, telefono, correo, linkedin, habilidad1, habilidad2, habilidad3 } = req.body;
-    const insertar = "INSERT INTO candidatos (Nombre, Imagen, Profesion, Telefono, Correo, LinkedIn, Habilidad1, Habilidad2, Habilidad3) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
-    conexion.query(insertar, [nombre, imagen, profesion, telefono, correo, linkedin, habilidad1, habilidad2, habilidad3], function(error, results) {
-        if (error) {
-            console.error('Error executing query:', error);
-            res.status(500).send('Error al insertar los datos');
-        } else {
-            res.status(201).send('Perfil insertado correctamente');
-        }
+
+    app.post('/newCandidato', (req, res) => {
+        const { nombre, imagen, profesion, telefono, correo, linkedin, habilidad1, habilidad2, habilidad3 } = req.body;
+        const insertarCandidato = "INSERT INTO candidatos (Nombre, Imagen, Profesion, Telefono, Correo, LinkedIn) VALUES (?, ?, ?, ?, ?, ?)";
+        conexion.query(insertarCandidato, [nombre, imagen, profesion, telefono, correo, linkedin], function(error, results) {
+            if (error) {
+                console.error('Error executing query:', error);
+                res.status(500).send('Error al insertar el candidato');
+            } else {
+                const idEmpleado = results.insertId;
+                const insertarCandidatoInfo = `INSERT INTO candidatosinfo (idEmpleado, idHabilidad1, idHabilidad2, idHabilidad3)
+                                               VALUES (
+                                                   ?,
+                                                   (SELECT ID FROM habilidades h WHERE h.Nombre = ? LIMIT 1),
+                                                   (SELECT ID FROM habilidades h WHERE h.Nombre = ? LIMIT 1),
+                                                   (SELECT ID FROM habilidades h WHERE h.Nombre = ? LIMIT 1)
+                                               )`;
+    
+                conexion.query(insertarCandidatoInfo, [idEmpleado, habilidad1, habilidad2, habilidad3], function(error, results) {
+                    if (error) {
+                        console.error('Error executing query:', error);
+                        res.status(500).send('Error al insertar la información del candidato');
+                    } else {
+                        res.status(201).send('Perfil insertado correctamente');
+                    }
+                });
+            }
+        });
     });
-});
     
 
     app.listen(5000, () => {
